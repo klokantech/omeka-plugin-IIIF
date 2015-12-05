@@ -1,0 +1,42 @@
+.zoompage{position:fixed;top:53px;left:0;right:0;bottom:0;z-index:500}
+.zoompage img{max-width:none;min-width:none}
+#zoom{position:absolute;top:0;left:0;right:0;bottom:0;background:#2b2b2b;z-index:120}
+#toolbar>div#zoom-in,#toolbar>div#zoom-out,#toolbar>div#previous,#toolbar>div#previous{z-index:130}
+#toolbar>div#next,#toolbar>div#previous{cursor:pointer;transition:all .2s cubic-bezier(.49, .81, .52, .9) 0}
+#toolbar>div#next:hover,#toolbar>div#previous:hover{background-color:#d0aeb8;color:#4a2f38}
+#toolbar{display:none}
+#toolbar.visible{display:block}
+#toolbar>div{display:block;position:absolute !important;left:0;padding:0 20px;text-decoration:none;line-height:1.5em;height:40px;line-height:43px;color:#d0aeb8;z-index:9999;background-color:#4a2f38;-webkit-border-radius:0 7px 7px 0;-moz-border-radius:0 7px 7px 0;border-radius:0 7px 7px 0}
+#toolbar>div#navigation{position:fixed;left:0;right:0;bottom:70px;background:none}
+#toolbar>div#navigation>div#next{position:absolute !important;cursor:pointer;right:0 !important;width:70px;text-align:center;background-color:#4a2f38;-webkit-border-radius:7px 0 0 7px;-moz-border-radius:7px 0 0 7px;border-radius:7px 0 0 7px}
+#toolbar>div#navigation>div#previous{position:absolute !important;cursor:pointer;left:0 !important;width:70px;text-align:center;background-color:#4a2f38;-webkit-border-radius:0 7px 7px 0;-moz-border-radius:0 7px 7px 0;border-radius:0 7px 7px 0;-webkit-transition:all .2s cubic-bezier(.49, .81, .52, .9);-moz-transition:all .2s cubic-bezier(.49, .81, .52, .9);-o-transition:all .2s cubic-bezier(.49, .81, .52, .9);transition:all .2s cubic-bezier(.49, .81, .52, .9)}
+#toolbar>div#navigation>div#previous:hover,#toolbar>div#navigation>div#next:hover{background-color:#d0aeb8;color:#4a2f38;opacity:1}
+#toolbar>div#navigation>div#previous>img{position:absolute !important;top:-70px;right:0;width:70px;-webkit-transition:all .2s cubic-bezier(.49, .81, .52, .9);-moz-transition:all .2s cubic-bezier(.49, .81, .52, .9);-o-transition:all .2s cubic-bezier(.49, .81, .52, .9);transition:all .2s cubic-bezier(.49, .81, .52, .9)}
+#toolbar>div#navigation>div#next>img{position:absolute !important;top:-70px;left:0;width:70px;-webkit-transition:all .2s cubic-bezier(.49, .81, .52, .9);-moz-transition:all .2s cubic-bezier(.49, .81, .52, .9);-o-transition:all .2s cubic-bezier(.49, .81, .52, .9);transition:all .2s cubic-bezier(.49, .81, .52, .9)}
+#toolbar>div#close,#toolbar>div#download,#toolbar>div#zoom-in,#toolbar>div#zoom-out{-webkit-transition:all .2s cubic-bezier(.49, .81, .52, .9);-moz-transition:all .2s cubic-bezier(.49, .81, .52, .9);-o-transition:all .2s cubic-bezier(.49, .81, .52, .9);transition:all .2s cubic-bezier(.49, .81, .52, .9);cursor:pointer}#toolbar>div#close i,#toolbar>div#download i,#toolbar>div#zoom-in i,#toolbar>div#zoom-out i{-webkit-transition:none;-moz-transition:none;-o-transition:none;transition:none}
+#toolbar>div#close:hover,#toolbar>div#download:hover,#toolbar>div#zoom-in:hover,#toolbar>div#zoom-out:hover{background-color:#d0aeb8;color:#4a2f38}#toolbar>div#close:hover a,#toolbar>div#download:hover a,#toolbar>div#zoom-in:hover a,#toolbar>div#zoom-out:hover a{color:#4a2f38}
+#toolbar>div#photo-title{top:100px;text-transform:uppercase;font-size:1.2em}
+#toolbar>div#close{top:40px}
+#toolbar div#download{bottom:210px;padding-left:0}#toolbar div#download a{padding-left:20px;text-decoration:none;color:#d0aeb8;display:block;width:100%;height:100%}
+#toolbar>div#zoom-in{top:100px;padding-right:0}
+#toolbar>div#zoom-out{top:150px;padding-right:0}
+#toolbar>div i{top:3px;margin-right:10px}
+@font-face{font-family:'icons';src:url('./icons.eot');src:url('./icons.eot?#iefix') format('embedded-opentype'),url('./icons.woff') format('woff'),url('./icons.ttf') format('truetype'),url('./icons.svg#bac') format('svg');font-weight:normal;font-style:normal}[data-icon]:before{font-family:'icons';content:attr(data-icon);speak:none;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased}
+.icon-zoom-out,.icon-zoom-in,.icon-close{font-family:'bac';speak:none;font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;font-size:20px;-webkit-font-smoothing:antialiased}
+.icon-zoom-out:before{content:"\e000"}
+.icon-zoom-in:before{content:"\e005"}
+.icon-close:before{content:"\e008"}
+
+#zoom-image {display: none}
+
+#zoom-image.visible{
+display: block;
+position: fixed;
+background: black;
+top: 0px;
+left: 0px;
+width: 100%;
+height: 100%;
+bottom: 0px;
+z-index: 9999;
+}
