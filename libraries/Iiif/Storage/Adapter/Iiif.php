@@ -86,8 +86,24 @@ class Iiif_Storage_Adapter_Iiif implements Omeka_Storage_Adapter_AdapterInterfac
     public function getUri($path)
     {
         list( $size, $filename ) = explode('/', $path, 2);
-        $filename = preg_replace('/\\.[^.\\s]{3,4}$/', '', $filename);
         
+        $db = get_db();
+   		$select = $db->select()->from(array("f" => $db->File), array('metadata'));
+   		$select->where('f.filename = ?', $filename);
+   		$metadata = $db->getTable('File')->fetchOne($select);
+
+        if ($metadata == '{"iiif":{}}') {
+        	return '/plugins/Iiif/views/public/img/placeholder.png';
+        }
+        
+        $metadata = json_decode($metadata, True);
+
+        if (isset($metadata) and array_key_exists('iiif', $metadata) and array_key_exists('@id', $metadata['iiif'])) {
+        	$base_image_url = $metadata['iiif']['@id'];
+        } else {
+        	return '/plugins/Iiif/views/public/img/placeholder.png';
+        }
+               
 		$square_thumbnail_size = get_option('square_thumbnail_constraint');
 		$thumbnail_size = get_option('thumbnail_constraint');
 		$fullsize_size = get_option('fullsize_constraint');
@@ -98,8 +114,6 @@ class Iiif_Storage_Adapter_Iiif implements Omeka_Storage_Adapter_AdapterInterfac
 			'fullsize' => "!$fullsize_size,$fullsize_size",
 			'original' => 'full'
 		);
-
-   		$base_image_url = get_option('iiif_server') . "/" . $filename;
 		
 		if($size == 'square_thumbnails') $region = 'square';
 		else $region = 'full';

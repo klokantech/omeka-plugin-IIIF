@@ -66,4 +66,5 @@
 #toolbar div#download{bottom:210px;padding-left:0}#toolbar div#download a{padding-left:20px;text-decoration:none;color:#E0E0E0;display:block;width:100%;height:100%}
 #toolbar>div#zoom-in{top:100px;padding-right:0}
 #toolbar>div#zoom-out{top:150px;padding-right:0}
-#toolbar>div i{top:3px;margin-right:10px;margin-left:-10px}
+#toolbar>div i{top:3px;margin-right:10px}
+#toolbar>div#zoom-in i, #toolbar>div#zoom-out i{margin-left:-10px}

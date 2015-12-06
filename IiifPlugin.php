@@ -15,7 +15,7 @@ class IiifPlugin extends Omeka_Plugin_AbstractPlugin
 		'before_save_file',
 		'after_save_file',
 		'after_delete_file',
-		'admin_items_show_sidebar'
+		'admin_items_panel_buttons'
 	);
 	
 	/**
@@ -59,14 +59,14 @@ class IiifPlugin extends Omeka_Plugin_AbstractPlugin
                        
 		$router->addRoute('iiif_manifest', $route);
 		
-		$route = new Zend_Controller_Router_Route('items/show/:id/iiif_mapping',
+		$route = new Zend_Controller_Router_Route('items/edit/:id/iiif_mapping',
             		array('controller' => 'mapping',
                 	   'module' => 'iiif',
                        'action' => 'mapping'));
                        
 		$router->addRoute('iiif_mapping', $route);
 		
-		$route = new Zend_Controller_Router_Route('items/show/:id/iiif_add',
+		$route = new Zend_Controller_Router_Route('items/edit/:id/iiif_add',
             		array('controller' => 'mapping',
                 	   'module' => 'iiif',
                        'action' => 'add'));
@@ -119,7 +119,7 @@ class IiifPlugin extends Omeka_Plugin_AbstractPlugin
         
         echo "<div id='detail-image-container'>\n";
         echo "	<div id='detail-image'>\n";
-        echo item_image('fullsize');
+        echo item_image('fullsize', array('style' => 'max-width: 100%;'));
         echo "	</div>\n";
         echo "	<div id='zoom-image' ></div>\n";
 		echo "	<div id='zoom-image-close'></div>\n";
@@ -169,13 +169,13 @@ class IiifPlugin extends Omeka_Plugin_AbstractPlugin
 			$conn = ftp_connect($ftp_url);
 			
 			if (!$conn or !ftp_login($conn, $ftp_user, $ftp_pass)) {
-				Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->addMessage("Can't connect to storage server.", 'error');
+				Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->addMessage("Can't connect to IIIF Hosting storage server.", 'error');
 				$error = True;
 			}
 			
 			if (!$error) {
 				if (ftp_put($conn, $file->filename, '/tmp/'.$file->filename, FTP_BINARY) == False) {
-					Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->addMessage("Error during upload the file to storage server.", 'error');
+					Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->addMessage("Error during upload the image $file->original_filename to IIIF Hosting storage server.", 'error');
 					$error = True;
 				}
 			}
@@ -191,6 +191,8 @@ class IiifPlugin extends Omeka_Plugin_AbstractPlugin
 			
 			if ($error) {
 				Zend_Controller_Action_HelperBroker::getStaticHelper('redirector')->gotoUrl(WEB_ROOT . '/admin/items/edit/' . $file->item_id);
+			} else {
+				Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->addMessage("The image $file->original_filename was uploaded to IIIF Hosting - it is going to be processed.", 'success');
 			}
 			
     		$file->size = 0;
@@ -214,11 +216,16 @@ class IiifPlugin extends Omeka_Plugin_AbstractPlugin
 			$conn = ftp_connect($ftp_url);
 			
 			if (!$conn or !ftp_login($conn, $ftp_user, $ftp_pass)) {
+				Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->addMessage("Can't connect to IIIF Hosting storage server.", 'error');
 				$error = True;
 			}
 			
 			if (!$error) {
-				ftp_delete($conn, $file->filename);
+				if (ftp_delete($conn, $file->filename) == False) {
+					Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->addMessage("Error during deletion of $file->original_filename from IIIF Hosting storage server.", 'error');
+				} else {
+					Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->addMessage("Image $file->original_filename was deleted from IIIF Hosting storage server.", 'success');
+				}
 			}
 			
 			if ($conn) {
@@ -227,20 +234,51 @@ class IiifPlugin extends Omeka_Plugin_AbstractPlugin
 		}
     }
     
-    public function hookAdminItemsShowSidebar($args)
+    public function hookAdminItemsPanelButtons($args)
     {
-    	$item = $args['item'];
+    	$item = $args['record'];
+    	$show_verify = False;
+    	
+    	foreach($item->Files as $file) {
+            if ($file->metadata == '{"iiif":{}}') {
+            	$show_verify = True;
+            	break;
+            }
+        }    	
 
-    	echo "<div class='panel'><h4>IIIF image service</h4><div>";
-    	echo "<p><a href='/items/show/$item->id/iiif_mapping'>Verify availability</a></p>";
-    	echo '<div id="add-tags">
-    			<form method="post" enctype="multipart/form-data" id="iiif_form" action="/items/show/'.$item->id.'/iiif_add">
-        			<label>Identifier or link to info.json:</label>           
-        			<p><input type="text" name="iiif_input" size="20" class="textinput" value="" /></p>
-        			<input type="submit" name="iiif_submit" class="green button" value="Add image" />
-        		</form>
-    		</div>';
-        echo "</div></div>";
+    	echo "<div style='border-top: 1px solid #e7e7e7; border-bottom: 1px solid #e7e7e7; padding-top: 10px; margin-bottom: 10px; text-align: center;'>\n";
+    	echo "<h4 style='margin-bottom: 10px;'>IIIF image service</h4>\n";
+    	
+    	if ($show_verify) {
+	    	echo "<a href='/admin/items/edit/".$item->id."/iiif_mapping' class='submit big green button'>Verify availability</a>\n";
+	    }
+	    
+	    echo "<script language='javascript' type='text/javascript'>
+	    		function AddImage() {
+	    			var iiif_input = document.getElementById('iiif_input').value;
+
+					my_form = document.createElement('FORM');
+					my_form.name = 'myForm';
+					my_form.method = 'POST';
+					my_form.action = '/admin/items/edit/".$item->id."/iiif_add';
+					
+					my_tb = document.createElement('INPUT');
+					my_tb.type = 'TEXT';
+					my_tb.name = 'iiif_input';
+					my_tb.value = iiif_input;
+					my_form.appendChild(my_tb);
+
+					document.body.appendChild(my_form);
+					my_form.submit();
+				}
+			</script>\n";
+	    
+    	echo "<div>
+        			<p>Identifier or link to info.json</p>           
+        			<p><input id='iiif_input' type='text' name='iiif_input' size='20' class='textinput' value='' /></p>
+        			<a href='javascript:void(0)' onclick='AddImage();' class='submit big green button'>Add image</a>
+    		</div>\n";
+        echo "</div>\n";
     }
 }
 ?>
