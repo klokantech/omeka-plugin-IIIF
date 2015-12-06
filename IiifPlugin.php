@@ -169,13 +169,13 @@ class IiifPlugin extends Omeka_Plugin_AbstractPlugin
 			$conn = ftp_connect($ftp_url);
 			
 			if (!$conn or !ftp_login($conn, $ftp_user, $ftp_pass)) {
-				Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->addMessage("Can't connect to IIIF Hosting storage server.", 'error');
+				Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->addMessage("Can not connect to IIIFHosting.com storage.", 'error');
 				$error = True;
 			}
 			
 			if (!$error) {
 				if (ftp_put($conn, $file->filename, '/tmp/'.$file->filename, FTP_BINARY) == False) {
-					Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->addMessage("Error during upload the image $file->original_filename to IIIF Hosting storage server.", 'error');
+					Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->addMessage("Error during upload of the image $file->original_filename to IIIFHosting.com storage.", 'error');
 					$error = True;
 				}
 			}
@@ -192,7 +192,7 @@ class IiifPlugin extends Omeka_Plugin_AbstractPlugin
 			if ($error) {
 				Zend_Controller_Action_HelperBroker::getStaticHelper('redirector')->gotoUrl(WEB_ROOT . '/admin/items/edit/' . $file->item_id);
 			} else {
-				Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->addMessage("The image $file->original_filename was uploaded to IIIF Hosting - it is going to be processed.", 'success');
+				Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->addMessage("Image $file->original_filename successfully uploaded to IIIFHosting.com - it is going to be processed.", 'success');
 			}
 			
     		$file->size = 0;
@@ -222,15 +222,15 @@ class IiifPlugin extends Omeka_Plugin_AbstractPlugin
 			$conn = ftp_connect($ftp_url);
 			
 			if (!$conn or !ftp_login($conn, $ftp_user, $ftp_pass)) {
-				Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->addMessage("Can't connect to IIIF Hosting storage server.", 'error');
+				Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->addMessage("Can't connect to IIIFHosting.com storage.", 'error');
 				$error = True;
 			}
 			
 			if (!$error) {
 				if (ftp_delete($conn, $file->filename) == False) {
-					Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->addMessage("Error during deletion of $file->original_filename from IIIF Hosting storage server.", 'error');
+					Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->addMessage("Error: Deleting of $file->original_filename from IIIFHosting.com storage failed.", 'error');
 				} else {
-					Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->addMessage("Image $file->original_filename was deleted from IIIF Hosting storage server.", 'success');
+					Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->addMessage("Image $file->original_filename successfully deleted from IIIFHosting.com storage.", 'success');
 				}
 			}
 			
@@ -282,7 +282,7 @@ class IiifPlugin extends Omeka_Plugin_AbstractPlugin
     	echo "<div>
         			<p>Identifier or link to info.json</p>           
         			<p><input id='iiif_input' type='text' name='iiif_input' size='20' class='textinput' value='' /></p>
-        			<a href='javascript:void(0)' onclick='AddImage();' class='submit big green button'>Add image</a>
+        			<a href='javascript:void(0)' onclick='AddImage();' class='submit big green button'>Add IIIF image</a>
     		</div>\n";
         echo "</div>\n";
     }
