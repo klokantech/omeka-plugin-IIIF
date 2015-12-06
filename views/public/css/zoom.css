@@ -28,20 +28,20 @@
 .icon-prev:before{content:"\3c"}
 
 #zoom-image {
-display: none
+	display: none
 }
 
 #zoom-image.visible{
-display: block;
-position: fixed;
-background: white;
-top: 0px;
-bottom: 0px;
-left: 0px;
-right: 0px;
-width: 100%;
-height: 100%;
-z-index: 9999;
+	display: block;
+	position: fixed;
+	background: white;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
 }
 
 .zoompage{position:fixed;top:53px;left:0;right:0;bottom:0;z-index:500}
@@ -67,4 +67,3 @@ z-index: 9999;
 #toolbar>div#zoom-in{top:100px;padding-right:0}
 #toolbar>div#zoom-out{top:150px;padding-right:0}
 #toolbar>div i{top:3px;margin-right:10px;margin-left:-10px}
-

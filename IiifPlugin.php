@@ -82,10 +82,24 @@ class IiifPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookConfig($args)
     {
         $post = $args['post'];
+        
+        $iiif_server = $post['iiif_server'];
+        
+        if ($post['ftp_url'] != '' and $iiif_server == '') {
+        	$iiif_server = 'http://' . $post['ftp_url'] . '.iiifhosting.com/iiif';
+        }
+        
+        if ($iiif_server == '') {
+        	Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->addMessage("IIIF server can't be empty.", 'error');
+        	#TODO
+        	# solve redirection
+        	//Zend_Controller_Action_HelperBroker::getStaticHelper('redirector')->gotoUrl(WEB_ROOT . '/admin/plugins/config?name=Iiif');
+        }
+        
         set_option('iiif_ftp_url', $post['ftp_url']);
         set_option('iiif_ftp_user', $post['ftp_user']);    
         set_option('iiif_ftp_pass', $post['ftp_pass']);
-        set_option('iiif_server', $post['iiif_server']);
+        set_option('iiif_server', $iiif_server);
     }
     
     public function hookPublicHead($args)

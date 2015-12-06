@@ -23,9 +23,16 @@ jQuery(window).load(function () {
 </ul>
 
 <section class="seven columns alpha" id="edit-form">
-	<div>
-		<h2>Information to configure IIIF plugin for Omeka</h2>
-		<p>After activation of this plugin the Omeka storage adapter needs to be configure in the Omeka main configuration (located at [site_installation_path]/application/config/config.ini). This configuration needs to be added there:<br/><br/>storage.adapter = "Iiif_Storage_Adapter_Iiif"<br/><br/>If this plugin needs to be removed the configuration MUST BE REMOVED before deactivation of the plugin.</p>
+	<div id="iiif_plugin_config_info" style="border: 3px solid red; margin-bottom: 10px; padding: 5px;">
+	<?php
+		$adapter = Zend_Registry::get('bootstrap')->storage->getAdapter();
+		
+		if ($adapter instanceof Iiif_Storage_Adapter_Iiif) {
+			echo 'Before eventual deactivation of this plugin the Omeka storage adapter configuration <span style="color:red">MUST BE REMOVED</span> in the Omeka main configuration (located at [site_installation_path]/application/config/config.ini).<br/> Remove following line there:<br/><br/>storage.adapter = "Iiif_Storage_Adapter_Iiif"';
+		} else {
+			echo 'After activation of this plugin the Omeka storage adapter needs to be configured in the Omeka main configuration (located at [site_installation_path]/application/config/config.ini).<br/> Add following line there:<br/><br/>storage.adapter = "Iiif_Storage_Adapter_Iiif"';
+		}
+	?>
 	</div>
 	<div id="iiif-server" style="display: block;">
 		<h2>IIIF Server</h2>
