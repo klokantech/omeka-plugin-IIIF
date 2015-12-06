@@ -21,20 +21,20 @@ class Iiif_ManifestController extends Omeka_Controller_AbstractActionController
         $counter = 0;
 
         foreach($this->item->Files as $file) {
-            $image_metadata = json_decode($file->metadata, TRUE);
+            $metadata = json_decode($file->metadata, TRUE);
 
-            if (!isset($image_metadata) or !array_key_exists('iiif', $image_metadata) or $image_metadata['iiif'] == array()) {
+            if (!isset($metadata) or !array_key_exists('iiif', $metadata) or $metadata['iiif'] == array()) {
             	continue;
             }
-            
+
+        	$base_image_url = $metadata['iiif']['@id'];
             $image_width   = 0;
             $image_height  = 0;
-            $base_image_url = get_option('iiif_server') . "/" . $file->filename;
             $image_url = $base_image_url . "/full/full/0/native.jpg";
 
-            if (isset($image_metadata)) {
-			    $image_width = $image_metadata['iiif']['width'];
-			    $image_height = $image_metadata['iiif']['height'];
+            if (isset($metadata)) {
+			    $image_width = $metadata['iiif']['width'];
+			    $image_height = $metadata['iiif']['height'];
 			}
   
             $images = array(
