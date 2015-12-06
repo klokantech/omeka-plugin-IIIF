@@ -208,6 +208,12 @@ class IiifPlugin extends Omeka_Plugin_AbstractPlugin
     	$file = $args['record'];
     	
     	if ($file->stored == 1) {
+    		$metadata = json_decode($file->metadata, True);
+
+        	if (!isset($metadata) or !array_key_exists('iiif', $metadata)) {
+        		return;
+        	}
+	    	
 	    	$ftp_url = get_option('iiif_ftp_url') . '-ftp.iiifhosting.com';
 			$ftp_user = get_option('iiif_ftp_user');	
 			$ftp_pass = get_option('iiif_ftp_pass');

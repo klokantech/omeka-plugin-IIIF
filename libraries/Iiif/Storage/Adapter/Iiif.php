@@ -14,17 +14,8 @@
  * 
  * @package Omeka\Storage\Adapter
  */
-class Iiif_Storage_Adapter_Iiif implements Omeka_Storage_Adapter_AdapterInterface
+class Iiif_Storage_Adapter_Iiif extends Omeka_Storage_Adapter_Filesystem
 {
-    /**
-     * Set options for the storage adapter.
-     *
-     * @param array $options
-     */
-    public function __construct(array $options = array())
-    {
-
-    }
 
     public function setUp()
     {
@@ -101,7 +92,8 @@ class Iiif_Storage_Adapter_Iiif implements Omeka_Storage_Adapter_AdapterInterfac
         if (isset($metadata) and array_key_exists('iiif', $metadata) and array_key_exists('@id', $metadata['iiif'])) {
         	$base_image_url = $metadata['iiif']['@id'];
         } else {
-        	return '/plugins/Iiif/views/public/img/placeholder.png';
+        	# Fallback to Omeka_Storage_Adapter_Filesystem method
+        	return $this->_webDir . '/' . $path;
         }
                
 		$square_thumbnail_size = get_option('square_thumbnail_constraint');
