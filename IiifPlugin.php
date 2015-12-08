@@ -282,7 +282,7 @@ class IiifPlugin extends Omeka_Plugin_AbstractPlugin
     	echo "<div>
         			<p>Identifier or link to info.json</p>           
         			<p><input id='iiif_input' type='text' name='iiif_input' size='20' class='textinput' value='' /></p>
-        			<a href='javascript:void(0)' onclick='AddImage();' class='submit big green button'>Add IIIF image</a>
+        			<a href='javascript:void(0)' onclick='AddImage();' class='submit big green button'>Connect image</a>
     		</div>\n";
         echo "</div>\n";
     }
