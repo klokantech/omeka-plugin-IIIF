@@ -18,25 +18,18 @@ jQuery(window).load(function () {
 //]]>
 </script>
 <ul id="section-nav" class="navigation tabs">
-	<li><a href="#iiif-server" class="active">IIIF Server</a></li>
-	<li><a href="#iiif-hosting">IIIF Hosting</a></li>
+	<li><a href="#iiif-server" class="active">Custom IIIF server</a></li>
+	<li><a href="#iiif-hosting">IIIFHosting.com</a></li>
 </ul>
 
 <section class="seven columns alpha" id="edit-form">
-	<div id="iiif_plugin_config_info" style="border: 3px solid red; margin-bottom: 10px; padding: 5px;">
-	<?php
-		$adapter = Zend_Registry::get('bootstrap')->storage->getAdapter();
-		
-		if ($adapter instanceof Iiif_Storage_Adapter_Iiif) {
-			echo 'Before eventual deactivation of this plugin the Omeka storage adapter configuration <span style="color:red">MUST BE REMOVED</span> in the Omeka main configuration (located at [site_installation_path]/application/config/config.ini).<br/> Remove following line there:<br/><br/>storage.adapter = "Iiif_Storage_Adapter_Iiif"';
-		} else {
-			echo 'After activation of this plugin the Omeka storage adapter needs to be configured in the Omeka main configuration (located at [site_installation_path]/application/config/config.ini).<br/> Add following line there:<br/><br/>storage.adapter = "Iiif_Storage_Adapter_Iiif"';
-		}
-	?>
-	</div>
 	<div id="iiif-server" style="display: block;">
-		<h2>IIIF Server</h2>
-		<p class="element-set-description" id="iiif-server-description">The IIIF Server is software to provide zoomable images. For more information see, <a href="http://www.iiifserver.com">http://www.iiifserver.com</a></p>
+		<h2>Custom IIIF server</h2>
+		<p class="element-set-description" id="iiif-server-description">This plugin adds support for IIIF (http://iiif.io/) APIs. Items in Omeka can load images from any existing IIIF server. Each Omeka item with IIIF image automatically exposes the presentation metadata via the IIIF Manifest URL - so it can be easily displayed and used in other tools such as <a href="http://projectmirador.org/">Mirador</a>, <a href="http://www.georeferencer.com/">Georeferencer</a> and others.
+    </p>
+    <p class="element-set-description" id="iiif-server-description">
+    This Omeka instance can easily display images from an extermal image server compatible with IIIF Image API protocol. In case you want to install one check
+    <a href="http://www.iiifserver.com">http://www.iiifserver.com</a> or others linked from <a href="http://iiif.io/">http://iiif.io/</a></p>
 		<div class="field">
     	<?php echo $view->formLabel('iiif_server', 'IIIF server URL'); ?>
     		<div class="inputs">
@@ -48,14 +41,14 @@ jQuery(window).load(function () {
 		</div>
 	</div>
 	<div id="iiif-hosting" style="display: none;">
-		<h2>IIIF Hosting</h2>
-		<p class="element-set-description" id="iiif-hosting-description">The IIIF Hosting is hosting service for zoomable images. For more information see, <a href="http://www.iiifhosting.com">http://www.iiifhosting.com</a></p>
+		<h2>IIIFHosting.com</h2>
+		<p class="element-set-description" id="iiif-hosting-description">If <a href="http://www.iiifhosting.com">IIIFHosting.com</a> user account is activated here, the new images added to items in this Omeka administration interface will be uploaded also to IIIFHosting.com account - and any JPEG or TIFF will get fast zoomable viewer and responsive image service endpoint allowing interoperatibility with 3rd party IIIF compatible tools.</p>
 		<div class="field">
-    	<?php echo $view->formLabel('ftp_url', 'Subdomain'); ?>
+    	<?php echo $view->formLabel('ftp_url', 'Client ID'); ?>
     		<div class="inputs">
         	<?php echo $view->formText('ftp_url', $ftp_url, array('class' => 'textinput')); ?>
         		<p class="explanation">
-            		The subdomain part of URL of IIIF Hosting.
+            		The client identifier - visible as subdomain of IIIFHosting.com
         		</p>
     		</div>
 		</div>
@@ -65,7 +58,7 @@ jQuery(window).load(function () {
     		<div class="inputs">
         	<?php echo $view->formText('ftp_user', $ftp_user, array('class' => 'textinput')); ?>
         		<p class="explanation">
-            		The username for IIIF Hosting storage.
+            		The username for IIIFHosting.com storage.
         		</p>
     		</div>
 		</div>
@@ -75,9 +68,21 @@ jQuery(window).load(function () {
     		<div class="inputs">
         	<?php echo $view->formText('ftp_pass', $ftp_pass, array('class' => 'textinput')); ?>
         		<p class="explanation">
-            	The password for IIIF Hosting storage.
+            	The password for IIIFHosting.com storage.
         		</p>
     		</div>
 		</div>
 	</div>
+	<div id="iiif_plugin_config_info" style="border: 3px solid red; margin-bottom: 10px; padding: 5px;">
+	<?php
+		$adapter = Zend_Registry::get('bootstrap')->storage->getAdapter();
+		
+		if ($adapter instanceof Iiif_Storage_Adapter_Iiif) {
+			echo 'Before eventual deactivation of this plugin the Omeka storage adapter configuration <span style="color:red">MUST BE REMOVED</span> in the Omeka main configuration (located at [site_installation_path]/application/config/config.ini).<br/> Remove following line there:<br/><br/>storage.adapter = "Iiif_Storage_Adapter_Iiif"';
+		} else {
+			echo 'After activation of this plugin the Omeka storage adapter needs to be configured in the Omeka main configuration (located at [site_installation_path]/application/config/config.ini).<br/> Add following line there:<br/><br/>storage.adapter = "Iiif_Storage_Adapter_Iiif"';
+		}
+	?>
+	</div>
+  
 </section>

@@ -1,27 +1,30 @@
-#IIIF Plugin
+#Omeka IIIF Plugin
 
-This plugin provides zoomable images via IIIF Server and can cooperate with Klokantech IIIF Hosting service.
+This plugin adds support for IIIF (http://iiif.io/) APIs into [Omeka](http://www.omeka.org/). Items created in Omeka can load images from any existing IIIF server. Each Omeka item with IIIF image exposes the presentation metadata via the IIIF Manifest URL - so the items can be easily displayed and used in other tools such as Mirador, UniversalViewer or Georeferencer. 
+Users can configure in the plugin the IIIFHosting.com service - then the new images such as JPEG or TIFFs uploaded via administration of Omeka website will be turned into IIIF image service automatically and are going to be available in a fullscreen zoomable viewer and in variable pixel size via a responsive image service.
 
-Source files from this repository needs to be installed to `[omeka_site_installation_path]/plugins/Iiif/`.
-After the installation of this plugin the Omeka storage adapter needs to be configured in the Omeka main configuration (which is located at `[omeka_site_installation_path]/application/config/config.ini`).
-The following configuration needs to be added there:
+## Installation
 
+The content of this repository needs to be copied to `/plugins/Iiif/` directory in your Omeka installation.
+
+After the installation of this plugin the Omeka storage adapter must be changed in the main configuration (which is located at `/application/config/config.ini`). The following line needs to be added there:
+```
 storage.adapter = "Iiif_Storage_Adapter_Iiif"
+```
+**In case you want to deactivate or uninstall the plugin - you must first remove this line from the config.ini of your Omeka!**
 
-If this plugin needs to be removed the configuration MUST BE REMOVED before deactivation of the plugin.
+## Usage
 
-***IIIF server URL*** is the main option which needs to be configured. It tells where thumbnails and zoomable images are hosted.
-If the IIIF info.json file for particular image is located somewhere like `http://demo.iiifhosting.com/iiif/mona_lisa/info.json` the IIIF server option needs to be set as `http://demo.iiifhosting.com/iiif`.
+After installation every item in Omeka will get in the Editing mode a IIIF sidebar, similar to:
 
-There are another options for customers of Klokantech IIIF Hosting service where images can be hosted too. There are these options:
 
-* ***Subdomain***
-* ***Username***
-* ***Password***
+There it is possible to connect the metadata record of the item in Omeka with a IIIF image. If user provides a link to IIIF info.json, the connected image will appear under "Files" section - and Omeka will automatically us the image service for thumbnails, in exhibitions and also in a fast zoomable viewer in the public website. The Manifest compatible with the IIIF Presentation API is for each such item (with one image or a sequence of images) going to be available under link ending with /manifest.json.
 
-It they are correctly configured there is a possibility of uploading source images directly with Omeka administration.
+The section "Plugins" in the administration (/admin) of your Omeka - the plugin has "Configuration" page.
 
-IIIF image service panel is added to `items/show` Admin pages, where can be zoomable images added to particular item. They can be added directly with `ID` of image on the IIIF server, or there can be triggered previously uploaded images to IIIF hosting (images aren't usually available immediately because conversion and manipulation have to be done on the server side).
+On this page the user can provide address to his own image server (such as "http://mydomain.com/iiif/"). In such case the items can be linked to images just by providing correct short "identifer" in the sidebar described above.
+
+For complete integration of IIIF with the Omeka - allowing for example direct upload of images (JPEG or TIFF) into a IIIF service, users can purchase a plan on IIIFHosting.com service. In case correct institution name, user and password is provided Omeka will submit copies of the images to the dedicated hosting storage where these are going to be converted to JPEG2000 and exposed via IIIF.
 
 If the plugin is configured correctly and enabled there will be zoomable images on the `item/show` public pages for particular items.
 
