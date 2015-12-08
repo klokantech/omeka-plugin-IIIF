@@ -17,6 +17,7 @@ storage.adapter = "Iiif_Storage_Adapter_Iiif"
 
 After installation every item in Omeka will get in the Editing mode a IIIF sidebar, similar to:
 
+<img width="767" alt="screen shot 2015-12-08 at 09 51 01" src="https://cloud.githubusercontent.com/assets/59284/11656658/f47457fe-9db6-11e5-8137-809d6d102fe1.png">
 
 There it is possible to connect the metadata record of the item in Omeka with a IIIF image. If user provides a link to IIIF info.json, the connected image will appear under "Files" section - and Omeka will automatically use the image service for thumbnails, in exhibitions and also in a fast zoomable viewer in the public website. The Manifest compatible with the IIIF Presentation API for each item (with one image or a sequence of images) going to be available under link ending with /item/show/xxxxx/manifest.json.
 
