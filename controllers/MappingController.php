@@ -39,9 +39,14 @@ class Iiif_MappingController extends Omeka_Controller_AbstractActionController
     
     public function addAction()
     {
+
     	if($this->getRequest()->isPost()) {
     		$image_name = $this->getRequest()->getPost('iiif_input');
-    		
+    	} else {
+    		$image_name = $this->getRequest()->getQuery('iiif_input');
+    	}
+    	
+    	if($image_name) {
     		if (preg_match("/^https?\:\/\/([[:graph:]]*)\/([[:graph:]]+)\/info.json$/", $image_name, $matches)) {
     			$base_image_url = $image_name;
     			$image_name = $matches[2];
@@ -73,6 +78,7 @@ class Iiif_MappingController extends Omeka_Controller_AbstractActionController
 			   	
 			   	Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->addMessage("Image at $base_image_url has been added.", 'success');
 			   	
+			   	#TODO - solve it cleaner
 			   	# Can't use $file->save() because it would triggers hookAfterSaveFile and it isn't wanted there 
 			   	$db = get_db();
 			   	$sql = "INSERT INTO $db->FILE (item_id, size, has_derivative_image, mime_type, filename, original_filename, stored, metadata, added) VALUES ($file->item_id, $file->size, $file->has_derivative_image, '$file->mime_type', '$file->filename', '$file->original_filename', $file->stored, '$file->metadata', CURRENT_TIMESTAMP())";

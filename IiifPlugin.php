@@ -12,6 +12,7 @@ class IiifPlugin extends Omeka_Plugin_AbstractPlugin
 		'config',
 		'public_head',
 		'public_items_show',
+		'after_save_item',
 		'before_save_file',
 		'after_save_file',
 		'after_delete_file',
@@ -152,6 +153,19 @@ class IiifPlugin extends Omeka_Plugin_AbstractPlugin
     	
     }
     
+    public function hookAfterSaveItem($args)
+    {
+    	$item = $args['record'];
+    	$insert = $args['insert'];
+    	$post = $args['post'];
+    	
+    	if ($item and $insert and $post and array_key_exists('iiif_input', $post) and $post['iiif_input'] != '') {
+	    	Zend_Controller_Action_HelperBroker::getStaticHelper('redirector')->gotoUrl(WEB_ROOT . '/admin/items/edit/' . $item->id . '/iiif_add?iiif_input=' . urlencode($post['iiif_input']));
+	    	#TODO
+	    	# Explore possibility of using Zend forward, it would make this action without redirect and maybe doesn't suppress FlashMessenger with info about item itself (which is lost now) 
+    	}
+    }
+    
     public function hookBeforeSaveFile($args)
     {
 		# Hack to disable creation of thumbnails internally in Omeka
@@ -247,6 +261,7 @@ class IiifPlugin extends Omeka_Plugin_AbstractPlugin
     {
     	$item = $args['record'];
     	$show_verify = False;
+    	$add_image_button = '';
     	
     	foreach($item->Files as $file) {
             if ($file->metadata == '{"iiif":{}}') {
@@ -262,7 +277,8 @@ class IiifPlugin extends Omeka_Plugin_AbstractPlugin
 	    	echo "<a href='/admin/items/edit/".$item->id."/iiif_mapping' class='submit big green button'>Verify availability</a>\n";
 	    }
 	    
-	    echo "<script language='javascript' type='text/javascript'>
+	    if (current_url() != '/admin/items/add') {
+	    	echo "<script language='javascript' type='text/javascript'>
 	    		function AddImage() {
 	    			var iiif_input = document.getElementById('iiif_input').value;
 
@@ -281,11 +297,14 @@ class IiifPlugin extends Omeka_Plugin_AbstractPlugin
 					my_form.submit();
 				}
 			</script>\n";
+			
+			$add_image_button = "<a href='javascript:void(0)' onclick='AddImage();' class='submit big green button'>Connect image</a>";
+		}
 	    
     	echo "<div>
-        			<p>Identifier or link to info.json</p>           
-        			<p><input id='iiif_input' type='text' name='iiif_input' size='20' class='textinput' value='' /></p>
-        			<a href='javascript:void(0)' onclick='AddImage();' class='submit big green button'>Connect image</a>
+        			<p>Identifier or link to info.json</p>\n
+        			<p><input id='iiif_input' type='text' name='iiif_input' size='20' class='textinput' value='' /></p>\n
+        			$add_image_button
     		</div>\n";
         echo "</div>\n";
     }
