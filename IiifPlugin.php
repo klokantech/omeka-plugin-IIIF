@@ -143,9 +143,12 @@ class IiifPlugin extends Omeka_Plugin_AbstractPlugin
     	
     	echo "	<script>zoom('detail-image','zoom-image', images);</script>\n";
     	echo "</div>\n";
-    	echo "<div id='manifest-url'>\n";
-    	echo "<span>IIIF Manifest URL: </span><a href='".absolute_url("items/show/$item->id/manifest.json")."'>".absolute_url("items/show/$item->id/manifest.json")."</a>\n";
-    	echo "</div>\n";
+    	    	
+    	if ($metadata) {
+	    	echo "<div id='manifest-url'>\n";
+    		echo "<span>IIIF Manifest URL: </span><a href='".absolute_url("items/show/$item->id/manifest.json")."'>".absolute_url("items/show/$item->id/manifest.json")."</a>\n";
+    		echo "</div>\n";
+    	}
     	
     }
     
