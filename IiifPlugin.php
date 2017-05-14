@@ -107,7 +107,7 @@ class IiifPlugin extends Omeka_Plugin_AbstractPlugin
             $data = array(
                 "email" => $iiifhosting_customer,
                 "secure_payload" => $iiifhosting_secure_payload,
-                "webhook_url" => absolute_url("/iiif_ingest")
+                "webhook_url" => "http://$_SERVER[HTTP_HOST]/iiif_ingest"
             );
             $postdata = json_encode($data);
 
@@ -120,7 +120,7 @@ class IiifPlugin extends Omeka_Plugin_AbstractPlugin
                 )
             ));
 
-            $result = @file_get_contents("http://192.168.1.3:8000/configure_webhook/", False, $ctx);
+            $result = @file_get_contents("https://admin.iiifhosting.com/configure_webhook/", False, $ctx);
 
             if($result === FALSE){
                  Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->addMessage("Error in communication with IIIF Hosting server.", 'error');
