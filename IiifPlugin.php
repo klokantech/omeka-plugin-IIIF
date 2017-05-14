@@ -274,7 +274,7 @@ class IiifPlugin extends Omeka_Plugin_AbstractPlugin
     	echo "<h4 style='margin-bottom: 10px;'>IIIF image service</h4>\n";
     	
     	if ($show_verify) {
-	    	echo "<a href='/admin/items/edit/".$item->id."/iiif_mapping' class='submit big green button'>Verify availability</a>\n";
+	    	echo "<a href='".url("/items/edit/".$item->id."/iiif_mapping")."' class='submit big green button'>Verify availability</a>\n";
 	    }
 	    
 	    if (current_url() != '/admin/items/add') {
@@ -285,7 +285,7 @@ class IiifPlugin extends Omeka_Plugin_AbstractPlugin
 					my_form = document.createElement('FORM');
 					my_form.name = 'myForm';
 					my_form.method = 'POST';
-					my_form.action = '/admin/items/edit/".$item->id."/iiif_add';
+					my_form.action = '".url("/items/edit/".$item->id."/iiif_add")."';
 					
 					my_tb = document.createElement('INPUT');
 					my_tb.type = 'TEXT';
