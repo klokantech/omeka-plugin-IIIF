@@ -1,4 +1,4 @@
-#Omeka IIIF Plugin
+# Omeka IIIF Plugin
 
 This plugin adds support for IIIF (http://iiif.io/) APIs into [Omeka](http://www.omeka.org/). Items created in Omeka can load images from any existing IIIF server. Each Omeka item with IIIF image exposes the presentation metadata via the IIIF Manifest URL - so the items can be easily displayed and used in other tools such as Mirador, UniversalViewer or Georeferencer. 
 Users can configure in the plugin the IIIFHosting.com service - then the new images such as JPEG or TIFFs uploaded via administration of Omeka website will be turned into IIIF image service automatically and are going to be available in a fullscreen zoomable viewer and in variable pixel size via a responsive image service.
