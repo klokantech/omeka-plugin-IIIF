@@ -25,7 +25,7 @@ The section "Plugins" in the administration (/admin) of your Omeka - the plugin 
 
 On this page the user can provide address to his own image server (such as "http://mydomain.com/iiif/"). In such case the items can be linked to images just by providing correct short "identifer" in the sidebar described above.
 
-For complete integration of IIIF with the Omeka - allowing for example direct upload of images (JPEG or TIFF) into a IIIF service, users can purchase a plan on IIIFHosting.com service. If correct customer email and secure payload (from IIIFHosting.com administration) is provided Omeka will submit copies of the images to the dedicated hosting storage where these are going to be converted to JPEG2000 and exposed via IIIF.
+For complete integration of IIIF with the Omeka - allowing for example direct upload of images (JPEG or TIFF) into a IIIF service, users can purchase a plan on IIIFHosting.com service. provide your customer email which is registered in IIIFHosting.com service (there is a free plan). From IIIFHosting.com administration section "Ingest API" copy secure payload to this module configuration. Check Webhook configuration on IIIFHosting.com if it points to your Omeka installation URL + `/iiif_ingest`. It is created during Omeka module configuration. If correct configuration is provided Omeka will submit copies of the images to the dedicated hosting storage where these are going to be converted to JPEG2000 and exposed via IIIF. 
 
 If the plugin is configured correctly and enabled there will be zoomable images on the `item/show` public pages for particular items.
 
