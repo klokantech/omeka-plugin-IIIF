@@ -25,7 +25,7 @@ The section "Plugins" in the administration (/admin) of your Omeka - the plugin 
 
 On this page the user can provide address to his own image server (such as "http://mydomain.com/iiif/"). In such case the items can be linked to images just by providing correct short "identifer" in the sidebar described above.
 
-For complete integration of IIIF with the Omeka - allowing for example direct upload of images (JPEG or TIFF) into a IIIF service, users can purchase a plan on IIIFHosting.com service. In case correct institution name, user and password is provided Omeka will submit copies of the images to the dedicated hosting storage where these are going to be converted to JPEG2000 and exposed via IIIF.
+For complete integration of IIIF with the Omeka - allowing for example direct upload of images (JPEG or TIFF) into a IIIF service, users can purchase a plan on IIIFHosting.com service. If correct customer email and secure payload (from IIIFHosting.com administration) is provided Omeka will submit copies of the images to the dedicated hosting storage where these are going to be converted to JPEG2000 and exposed via IIIF.
 
 If the plugin is configured correctly and enabled there will be zoomable images on the `item/show` public pages for particular items.
 
@@ -33,3 +33,9 @@ Plugin needs to be triggered from `[your_theme]/items/show.php`. The most useful
 ```
 <?php echo get_specific_plugin_hook_output('Iiif', 'public_items_show', array('view' => $this, 'item' => $item)); ?>
 ```
+
+## Local development with docker-compose
+
+Just clone this folder and run "docker-compose up" on it.
+
+Omeka will run on localhost port 80. There is also phpmyadmin on port 8080, password is in docker-compose.yml
