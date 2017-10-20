@@ -11,7 +11,7 @@ After the installation of this plugin the Omeka storage adapter must be changed 
 ```
 storage.adapter = "Iiif_Storage_Adapter_Iiif"
 ```
-**In case you want to deactivate or uninstall the plugin - you must first remove this line from the config.ini of your Omeka!**
+**But the plugin must be already enabled before adding this line. In case you want to deactivate or uninstall the plugin - you must first remove this line from the config.ini of your Omeka!**
 
 ## Usage
 
